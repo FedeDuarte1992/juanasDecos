@@ -1,6 +1,23 @@
+from typing import TypedDict
 from urllib.parse import quote
 
 import reflex as rx
+
+
+class Product(TypedDict):
+    id: str
+    name: str
+    category: str
+    description: str
+    price: int
+    price_label: str
+    image: str
+    tag: str
+
+
+class CartItem(Product):
+    quantity: int
+    line_total: str
 
 
 PRODUCTS = [
@@ -106,7 +123,7 @@ class StoreState(rx.State):
     cart_open: bool = False
 
     @rx.var
-    def filtered_products(self) -> list[dict[str, str | int]]:
+    def filtered_products(self) -> list[Product]:
         query = self.search_query.strip().lower()
         return [
             product
@@ -125,7 +142,7 @@ class StoreState(rx.State):
         return sum(self.cart.values())
 
     @rx.var
-    def cart_items(self) -> list[dict[str, str | int]]:
+    def cart_items(self) -> list[CartItem]:
         items = []
         for product in PRODUCTS:
             quantity = self.cart.get(product["id"], 0)
