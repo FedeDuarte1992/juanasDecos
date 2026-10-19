@@ -676,7 +676,7 @@ def story() -> rx.Component:
 
 def footer() -> rx.Component:
     return rx.box(
-        rx.hstack(
+        rx.box(
             rx.vstack(
                 rx.heading("juanas", size="6", color="white", letter_spacing="-0.06em"),
                 rx.text("Objetos con historia, hogares con alma.", color="#d2d7cc"),
@@ -686,11 +686,12 @@ def footer() -> rx.Component:
             rx.vstack(
                 rx.text("¿Te ayudamos a elegir?", color="white", font_weight="600"),
                 rx.text("Escribinos y armamos tu espacio juntas.", color="#d2d7cc"),
-                align={"initial": "start", "md": "end"},
+                align="start",
                 spacing="2",
             ),
-            justify="between",
-            align={"initial": "start", "md": "center"},
+            display="flex",
+            justify_content="space-between",
+            align_items={"initial": "flex-start", "md": "center"},
             flex_direction={"initial": "column", "md": "row"},
             max_width="1200px",
             margin="0 auto",
