@@ -584,31 +584,43 @@ def hero() -> rx.Component:
 
 def benefits() -> rx.Component:
     benefit_items = [
-        ("✳", "Hecho con intención", "Piezas elegidas una por una"),
-        ("⌂", "Envíos a todo el país", "Coordinamos cada entrega"),
-        ("♡", "Atención cercana", "Te ayudamos a elegir"),
+        ("✳", "Hecho con intención", "Piezas elegidas una por una", COLORS["rose"]),
+        ("⌂", "Envíos a todo el país", "Coordinamos cada entrega", COLORS["sage"]),
+        ("♡", "Atención cercana", "Te ayudamos a elegir", COLORS["lilac"]),
     ]
     return rx.grid(
         *[
             rx.hstack(
-                rx.text(icon, color=COLORS["green"], font_size="1.5rem"),
+                rx.box(
+                    rx.text(icon, color=COLORS["plum"], font_size="1.45rem"),
+                    width="48px",
+                    height="48px",
+                    display="flex",
+                    align_items="center",
+                    justify_content="center",
+                    border_radius="50%",
+                    background=COLORS["white"],
+                ),
                 rx.vstack(
-                    rx.text(title, font_weight="600", color=COLORS["ink"]),
+                    rx.text(title, font_weight="700", color=COLORS["ink"]),
                     rx.text(description, color=COLORS["muted"], font_size="0.82rem"),
                     align="start",
                     spacing="1",
                 ),
-                justify="center",
+                justify={"initial": "start", "md": "center"},
                 align="center",
-                padding="1.5em 1em",
+                padding="1.15em",
+                border_radius="18px",
+                background=background,
             )
-            for icon, title, description in benefit_items
+            for icon, title, description, background in benefit_items
         ],
         columns={"initial": "1", "sm": "3"},
-        max_width="1200px",
+        spacing="4",
+        max_width="1280px",
         margin="0 auto",
         width="100%",
-        border_bottom="1px solid " + COLORS["line"],
+        padding={"initial": "1.2em 1.2em", "md": "1.7em 1.5em"},
     )
 
 
@@ -617,40 +629,49 @@ def collection() -> rx.Component:
         rx.vstack(
             rx.vstack(
                 rx.text(
-                    "ELEGIDOS PARA VOS",
+                    "UNA COLECCIÓN PARA DISFRUTAR",
                     color=COLORS["green"],
                     font_size="0.75rem",
-                    letter_spacing="0.16em",
+                    letter_spacing="0.14em",
                     font_weight="600",
                 ),
-                rx.heading("Pequeños detalles, grandes cambios", size="7", color=COLORS["ink"]),
+                rx.heading(
+                    "Detalles que hacen hogar.",
+                    size={"initial": "7", "md": "8"},
+                    color=COLORS["ink"],
+                    letter_spacing="-0.045em",
+                ),
                 rx.text(
-                    "Encontrá ese objeto que hace que un rincón se sienta hogar.",
+                    "Elegí con calma. Enamorate de una textura. Encontrá esa pieza que te estaba esperando.",
                     color=COLORS["muted"],
+                    max_width="560px",
+                    line_height="1.7",
                 ),
                 align="center",
-                spacing="3",
+                spacing="2",
                 text_align="center",
-                padding_bottom="1em",
+                padding_bottom="0.5em",
             ),
             rx.input(
-                placeholder="Buscar productos...",
+                placeholder="¿Qué estás buscando?  ✿",
                 value=StoreState.search_query,
                 on_change=StoreState.set_search_query,
                 aria_label="Buscar productos",
-                width={"initial": "100%", "sm": "360px"},
-                padding="0.85em 1em",
+                width={"initial": "100%", "sm": "420px"},
+                padding="1em 1.2em",
                 border="1px solid " + COLORS["line"],
-                border_radius="5px",
+                border_radius="999px",
                 background=COLORS["white"],
                 color=COLORS["ink"],
+                box_shadow="0 8px 20px rgba(63, 55, 66, 0.04)",
+                _focus={"outline": "2px solid " + COLORS["rose"], "border_color": COLORS["green"]},
             ),
             rx.hstack(
                 rx.foreach(CATEGORIES, category_button),
                 spacing="2",
                 flex_wrap="wrap",
                 justify="center",
-                padding="0.7em 0",
+                padding="0.7em 0 1.25em",
                 width="100%",
             ),
             rx.cond(
@@ -658,7 +679,7 @@ def collection() -> rx.Component:
                 rx.grid(
                     rx.foreach(StoreState.filtered_products, product_card),
                     columns={"initial": "1", "sm": "2", "lg": "4"},
-                    spacing="6",
+                    spacing={"initial": "4", "md": "5"},
                     width="100%",
                 ),
                 rx.vstack(
@@ -666,17 +687,19 @@ def collection() -> rx.Component:
                     rx.text("Probá con otra búsqueda o categoría.", color=COLORS["muted"]),
                     align="center",
                     width="100%",
-                    padding="4em 1em",
+                    padding="5em 1em",
+                    background=COLORS["white"],
+                    border_radius="24px",
                 ),
             ),
             align="center",
-            spacing="6",
-            max_width="1200px",
+            spacing="5",
+            max_width="1280px",
             margin="0 auto",
-            padding={"initial": "4em 1.2em", "md": "6em 1.5em"},
+            padding={"initial": "4.5em 1.2em", "md": "6em 1.5em"},
         ),
         id="coleccion",
-        background=COLORS["white"],
+        background="linear-gradient(180deg, " + COLORS["cream"] + " 0%, " + COLORS["lilac"] + " 100%)",
     )
 
 
@@ -686,43 +709,56 @@ def story() -> rx.Component:
             src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1100&q=85",
             alt="Ambiente cálido con objetos naturales y luz suave",
             width="100%",
-            height={"initial": "300px", "md": "440px"},
+            height={"initial": "320px", "md": "480px"},
             object_fit="cover",
-            border_radius="6px",
+            border_radius="24px",
+            box_shadow="0 20px 50px rgba(63, 55, 66, 0.12)",
         ),
         rx.vstack(
             rx.text(
-                "UN HOGAR QUE TE REPRESENTA",
+                "HECHO PARA TU DÍA A DÍA",
                 color=COLORS["green"],
                 font_size="0.75rem",
-                letter_spacing="0.16em",
+                letter_spacing="0.14em",
                 font_weight="600",
             ),
-            rx.heading("Lo lindo también puede ser simple.", size="7", color=COLORS["ink"]),
+            rx.heading(
+                "Lo lindo también puede ser simple.",
+                size={"initial": "7", "md": "8"},
+                color=COLORS["ink"],
+                letter_spacing="-0.045em",
+                line_height="1.08",
+            ),
             rx.text(
                 "En Juanas creemos que los espacios se construyen de a poco. Por eso buscamos piezas nobles, versátiles y con personalidad: para acompañar tus momentos y contar tu historia.",
                 color=COLORS["muted"],
                 line_height="1.8",
             ),
             rx.link(
-                "Encontrá tu próximo favorito →",
+                "Explorá la colección  →",
                 href="#coleccion",
-                color=COLORS["green"],
+                color=COLORS["plum"],
                 font_weight="600",
                 margin_top="0.5em",
+                padding="0.9em 1.2em",
+                border_radius="999px",
+                background=COLORS["white"],
             ),
             align="start",
             justify="center",
             spacing="4",
-            padding={"initial": "2em 0", "md": "3em"},
+            padding={"initial": "2em 1.4em", "md": "3.5em"},
+            background=COLORS["sage"],
+            border_radius="24px",
         ),
         columns={"initial": "1", "md": "2"},
         spacing="8",
-        max_width="1200px",
+        max_width="1280px",
         margin="0 auto",
-        padding={"initial": "3em 1.2em", "md": "5em 1.5em"},
+        padding={"initial": "3.5em 1.2em", "md": "6em 1.5em"},
         align="center",
         id="historia",
+        background=COLORS["cream"],
     )
 
 
@@ -730,14 +766,19 @@ def footer() -> rx.Component:
     return rx.box(
         rx.box(
             rx.vstack(
-                rx.heading("juanas", size="6", color="white", letter_spacing="-0.06em"),
-                rx.text("Objetos con historia, hogares con alma.", color="#d2d7cc"),
+                rx.hstack(
+                    rx.text("✿", color="#d8c4dc", font_size="1.35rem"),
+                    rx.heading("juanas", size="6", color="white", letter_spacing="-0.07em"),
+                    align="center",
+                    spacing="2",
+                ),
+                rx.text("Objetos lindos para sentirte en casa.", color="#e0d9e2"),
                 align="start",
                 spacing="2",
             ),
             rx.vstack(
-                rx.text("¿Te ayudamos a elegir?", color="white", font_weight="600"),
-                rx.text("Escribinos y armamos tu espacio juntas.", color="#d2d7cc"),
+                rx.text("Un rincón más tuyo empieza acá.", color="white", font_weight="600"),
+                rx.link("Descubrí la colección  ↗", href="#coleccion", color="#e0d9e2"),
                 align="start",
                 spacing="2",
             ),
@@ -745,20 +786,20 @@ def footer() -> rx.Component:
             justify_content="space-between",
             align_items={"initial": "flex-start", "md": "center"},
             flex_direction={"initial": "column", "md": "row"},
-            max_width="1200px",
+            max_width="1280px",
             margin="0 auto",
-            padding="2.5em 1.5em",
+            padding={"initial": "2.5em 1.2em", "md": "3.2em 1.5em"},
             width="100%",
         ),
         rx.text(
             "© 2026 Juanas Deco · Hecho con cariño",
-            color="#b9c0b4",
+           color="#cfc5d1",
             font_size="0.8rem",
             text_align="center",
             padding="1em",
-            border_top="1px solid rgba(255,255,255,0.15)",
+           border_top="1px solid rgba(255,255,255,0.12)",
         ),
-        background="#263329",
+        background=COLORS["plum"],
     )
 
 
@@ -771,9 +812,10 @@ def index() -> rx.Component:
         story(),
         footer(),
         rx.cond(StoreState.cart_open, cart_drawer(), rx.fragment()),
-        background=COLORS["white"],
+        background=COLORS["cream"],
         min_height="100vh",
         color=COLORS["ink"],
+        font_family="Arial, sans-serif",
     )
 
 
